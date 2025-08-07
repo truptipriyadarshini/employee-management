@@ -1,0 +1,60 @@
+/* Card styling */
+.card {
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease-in-out;
+}
+
+/* Form labels */
+.form-label {
+  font-weight: 500;
+  color: #333;
+  font-size: 15px;
+}
+
+/* Input fields */
+input.form-control {
+  border-radius: 0.4rem;
+  font-size: 14.5px;
+}
+
+/* Heading style */
+h4 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #3a2cc4;
+}
+
+/* Buttons spacing and style */
+.btn {
+  min-width: 120px;
+  font-weight: 500;
+  font-size: 14.5px;
+  border-radius: 0.375rem;
+}
+
+.btn-primary {
+  background-color: #4b3be0;
+  border-color: #4b3be0;
+}
+
+.btn-primary:hover {
+  background-color: #3a2cc4;
+  border-color: #3a2cc4;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #f1f1f1;
+  border-color: #ccc;
+}
+
+/* Small error messages */
+.text-danger.small {
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+
+.btn-outline-secondary{
+    margin-left: 5px;
+}
