@@ -1,0 +1,62 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Departments</h3>
+    <button class="btn btn-primary" (click)="openAddModal()">
+      <i class="bi bi-plus-lg"></i> Add Department
+    </button>
+  </div>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th style="width:60px">#</th>
+        <th>Department Name</th>
+        <th style="width:140px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of departments; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>{{ d.departmentName }}</td>
+        <td>
+          <button class="btn btn-sm btn-warning me-2" (click)="openEditModal(d)">
+            <i class="bi bi-pencil"></i> Edit
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteDepartment(d.departmentId)"> Delete
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div #departmentModal class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">{{ isEdit ? 'Edit Department' : 'Add Department' }}</h5>
+        <button type="button" class="btn-close" (click)="hideModal()"></button>
+      </div>
+      <div class="modal-body">
+<form [formGroup]="departmentForm" (ngSubmit)="saveDepartment()">
+  <div class="mb-3">
+    <label class="form-label">Department Name</label>
+    <input class="form-control" formControlName="departmentName" />
+    <div class="text-danger small" style="color: red;" *ngIf="departmentForm.get('departmentName')?.touched && departmentForm.get('departmentName')?.invalid">
+      Department name is required.
+    </div>
+  </div>
+</form>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="hideModal()">Cancel</button>
+        <button class="btn btn-success" [disabled]="departmentForm.invalid" (click)="saveDepartment()">
+          {{ isEdit ? 'Update' : 'Save' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
