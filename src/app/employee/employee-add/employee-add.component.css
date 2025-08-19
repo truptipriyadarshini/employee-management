@@ -35,3 +35,16 @@ input.form-control {
   background-color: #e7e7e7;
   margin-left: 5px;
 }
+.required::after {
+  content: " *";
+  color: #dc3545;
+  font-weight: 600;
+}
+.card {
+  border-radius: 1rem;
+}
+.card-header {
+  border-top-left-radius: 1rem !important;
+  border-top-right-radius: 1rem !important;
+}
+

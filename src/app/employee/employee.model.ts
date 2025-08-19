@@ -1,7 +1,8 @@
 export interface Employee {
-  id: number;
+  id: number;              // required for update/delete
   name: string;
-  department: string;
   email: string;
-  dateOfJoining: string; // Use string because Angular handles date as ISO string
+  departmentId: number;    // used in add/edit dropdown
+  dateOfJoining: string;
+  departmentName?: string; // only for display (comes from API)
 }

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../../employee.service';
 import { Employee } from '../employee.model';
+import { DepartmentService } from '../../department/department.service';
 
 @Component({
   selector: 'app-employee-edit',
@@ -15,57 +16,45 @@ import { Employee } from '../employee.model';
 export class EmployeeEditComponent implements OnInit {
   employeeForm!: FormGroup;
   employeeId!: number;
+  departments: { departmentId: number, departmentName: string }[] = [];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
-    private router: Router
+    private router: Router,
+    private departmentService: DepartmentService
   ) {
-    // ✅ Initialize form group inside constructor or ngOnInit
     this.employeeForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      department: ['', Validators.required],
-      dateOfJoining: ['', Validators.required]   // 🔁 Renamed to match HTML
+      departmentId: ['', Validators.required],
+      dateOfJoining: ['', Validators.required]
     });
-
   }
-  ngOnInit(): void {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      const id = Number(params.get('id'));
-      this.employeeId = id;
 
-      this.employeeService.getEmployee(id).subscribe((employee) => {
-        if (employee) {
-          this.employeeForm.patchValue({
-            name: employee.name,
-            email: employee.email,
-            department: employee.department,         // ✅ Must be present
-            joiningDate: employee.dateOfJoining        // ✅ Must be present
-          });
-        }
-      });
+  ngOnInit(): void {
+    // Load departments
+    this.departmentService.getDepartments().subscribe((data) => {
+      this.departments = data;
     });
 
+    // Get employee id from route and load details
     this.route.paramMap.subscribe((params) => {
       const idParam = params.get('id');
       if (idParam) {
         this.employeeId = +idParam;
-        this.loadEmployee();
+        this.employeeService.getEmployeeById(this.employeeId).subscribe((employee) => {
+          if (employee) {
+            this.employeeForm.patchValue({
+              name: employee.name,
+              email: employee.email,
+              departmentId: employee.departmentId,
+              dateOfJoining: employee.dateOfJoining
+            });
+          }
+        });
       }
-    });
-  }
-
-  loadEmployee(): void {
-    this.employeeService.getEmployee(this.employeeId).subscribe((emp) => {
-      // ✅ Convert ISO datetime to only yyyy-MM-dd
-      const formattedEmployee = {
-        ...emp,
-        dateOfJoining: emp.dateOfJoining?.slice(0, 10) || ''
-      };
-
-      this.employeeForm.patchValue(formattedEmployee);
     });
   }
 
