@@ -1,0 +1,64 @@
+<div class="container mt-4">
+    <h2 class="mb-3">Role Management</h2>
+
+    <!-- Add Role Button -->
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#roleModal" (click)="openModel()">
+        <i class="bi bi-plus-circle"></i> Add Role
+    </button>
+
+    <!-- Role Table -->
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Role Id</th>
+                <th>Role Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Static sample data -->
+            <tr *ngFor="let role of roles ;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ role.roleName }}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning me-2" data-bs-toggle="modal" data-bs-target="#roleModal"
+                        (click)="openEditModal(role)">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteRole(role.roleId)">
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap Modal for Add/Edit -->
+<div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roleModalLabel">{{editingRole ? 'Edit Role' : 'Add Role'}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="roleForm">
+                    <div class="mb-3">
+                        <label for="roleName" class="form-label">Role Name</label>
+                        <input type="text" class="form-control" id="roleName" placeholder="Enter role name" formControlName="roleName" />
+                        <div *ngIf="roleForm.get('roleName')?.touched && roleForm.get('roleName')?.invalid" class="text-danger">
+                        Role Name is required.
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="closeModal()">Close</button>
+                <button type="button" class="btn btn-success" (click)="saveRole()"
+                    [disabled]="roleForm.invalid">{{ editingRole ? 'Update' : 'Save' }}</button>
+            </div>
+        </div>
+    </div>
+</div>
