@@ -5,4 +5,6 @@ export interface Employee {
   departmentId: number;    // used in add/edit dropdown
   dateOfJoining: string;
   departmentName?: string; // only for display (comes from API)
+  RoleId?: number; // only for display (comes from API)
+  roleName?: string;   // 👈 for display only
 }

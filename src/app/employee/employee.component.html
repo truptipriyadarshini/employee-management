@@ -18,6 +18,7 @@
           <th scope="col">Department</th>
           <th scope="col">Email</th>
           <th scope="col">Date of Joining</th>
+          <th scope="col">Assign Role</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -25,10 +26,22 @@
         <tr *ngFor="let emp of employees">
           <td>{{ emp.id }}</td>
           <td>{{ emp.name }}</td>
-          <td>{{ emp.departmentName}}</td>
+          <td>{{ emp.departmentName }}</td>
           <td>{{ emp.email }}</td>
           <td>{{ emp.dateOfJoining | date:'mediumDate' }}</td>
+
+          <!-- Role Dropdown -->
           <td>
+            <select [(ngModel)]="emp.roleId" (change)="onRoleChange(emp)" class="form-select">
+              <option [ngValue]="null">-- Select a Role --</option>
+              <option *ngFor="let role of roles" [ngValue]="role.roleId">
+                {{ role.roleName }}
+              </option>
+            </select>
+          </td>
+
+          <td>
+            <button class="btn btn-primary btn-sm me-2" (click)="assignRole(emp)">Assign Role</button>
             <button class="btn btn-primary btn-sm me-2" [routerLink]="['/employees/edit', emp.id]">Edit</button>
             <button class="btn btn-sm btn-danger" (click)="onDelete(emp.id)">Delete</button>
           </td>
